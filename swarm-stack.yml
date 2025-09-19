@@ -1,0 +1,64 @@
+version: "3.8"
+
+services:
+  vote:
+    image: vote-app:latest
+    build: ./vote
+    networks:
+      - webnet
+    deploy:
+      replicas: 2
+
+  result:
+    image: result-app:latest
+    build: ./result
+    networks:
+      - webnet
+    deploy:
+      replicas: 2
+
+  worker:
+    image: worker-app:latest
+    build: ./worker
+    networks:
+      - webnet
+    deploy:
+      replicas: 1
+
+  redis:
+    image: redis:alpine
+    networks:
+      - webnet
+    deploy:
+      replicas: 1
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - webnet
+    deploy:
+      replicas: 1
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - webnet
+    deploy:
+      replicas: 1
+
+volumes:
+  db-data:
+
+networks:
+  webnet:
+
