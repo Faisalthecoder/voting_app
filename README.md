@@ -31,6 +31,5 @@ docker-swarm-voting-app/
 
 ### 1. Clone Repo
 ```bash
-git clone git@github.com:<your-username>/docker-swarm-voting-app.git
-cd docker-swarm-voting-app
+git clone git@github.com:faisalthecoder/voting_app
 
